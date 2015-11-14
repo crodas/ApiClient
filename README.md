@@ -1,2 +1,2 @@
 # ApiClient
-Client for crodas/ApiServer
+Client for [ApiServer](https://github.com/crodas/ApiServer)
