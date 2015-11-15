@@ -49,6 +49,11 @@ var Server = (function API_Client() {
 
 
     ns.exec = function(method, args, callback) {
+        if (typeof args === "function") {
+            callback = args;
+            args     = {};
+        }
+
         var promise = new Promise(function(resolve, reject) {
             queue.push([method, args, resolve, reject]);
         });
