@@ -16,7 +16,7 @@ var Server = (function API_Client() {
 
         };
         xhr.onload = function() {
-            var response = JSON.parse(this.response || this.responseText);
+            var response = typeof this.response === "string" ? JSON.parse(this.response || this.responseText) : this.response;
             if (typeof response === "number") {
                 // general error
                 // TODO: retry or give up
@@ -38,6 +38,7 @@ var Server = (function API_Client() {
         }
 
         xhr.open("POST", _url, true);
+        xhr.responseType = 'json';
         xhr.send(JSON.stringify(reqBody));
     }
 
