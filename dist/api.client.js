@@ -5260,10 +5260,18 @@ var Server = (function API_Client() {
         queue = [];
 
         var xhr = new XMLHttpRequest();
+        xhr.onerror = function() {
+
+        };
         xhr.onload = function() {
-            var response = JSON.parse(this.response || this.responseText);
+            var response = typeof this.response === "string" ? JSON.parse(this.response || this.responseText) : this.response;
+            if (typeof response === "number") {
+                // general error
+                // TODO: retry or give up
+                return;
+            }
             for (var i = 0; i < response.length; ++i) {
-                if (typeof response[i] === "number") {
+                if (typeof response[i] === "object" && response[i].error) {
                     currentQueue[i][3](response[i]);
                 } else {
                     currentQueue[i][2](response[i]);
@@ -5278,6 +5286,7 @@ var Server = (function API_Client() {
         }
 
         xhr.open("POST", _url, true);
+        xhr.responseType = 'json';
         xhr.send(JSON.stringify(reqBody));
     }
 
@@ -5289,6 +5298,11 @@ var Server = (function API_Client() {
 
 
     ns.exec = function(method, args, callback) {
+        if (typeof args === "function") {
+            callback = args;
+            args     = {};
+        }
+
         var promise = new Promise(function(resolve, reject) {
             queue.push([method, args, resolve, reject]);
         });
