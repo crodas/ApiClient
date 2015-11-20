@@ -5264,6 +5264,7 @@ var Server = (function API_Client() {
 
         };
         xhr.onload = function() {
+            localStorage.sessionId = xhr.getResponseHeader('X-Session-Id') || "";
             var response = typeof this.response === "string" ? JSON.parse(this.response || this.responseText) : this.response;
             if (typeof response === "number") {
                 // general error
@@ -5279,13 +5280,10 @@ var Server = (function API_Client() {
             }
         };
 
-        var _url = url;
-
+        xhr.open("POST", url, true);
         if (localStorage.sessionId) {
-            _url += "?s=" + localStorage.sessionId;
+            xhr.setRequestHeader("X-Session-Id", localStorage.sessionId);
         }
-
-        xhr.open("POST", _url, true);
         xhr.responseType = 'json';
         xhr.send(JSON.stringify(reqBody));
     }
