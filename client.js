@@ -16,7 +16,11 @@ var Server = (function API_Client() {
 
         };
         xhr.onload = function() {
-            localStorage.sessionId = xhr.getResponseHeader('X-Session-Id') || "";
+            if (xhr.getResponseHeader('X-Set-Session-Id')) {
+                localStorage.sessionId = xhr.getResponseHeader('X-Set-Session-Id');
+            } else if (xhr.getResponseHeader("X-Destroy-Session-Id")) {
+                localStorage.sessionId = null;
+            }
             var response = typeof this.response === "string" ? JSON.parse(this.response || this.responseText) : this.response;
             if (typeof response === "number") {
                 // general error
