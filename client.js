@@ -19,7 +19,7 @@ var Server = (function API_Client() {
             if (xhr.getResponseHeader('X-Set-Session-Id')) {
                 localStorage.sessionId = xhr.getResponseHeader('X-Set-Session-Id');
             } else if (xhr.getResponseHeader("X-Destroy-Session-Id")) {
-                localStorage.sessionId = null;
+                localStorage.sessionId = "";
             }
             var response = typeof this.response === "string" ? JSON.parse(this.response || this.responseText) : this.response;
             if (typeof response === "number") {
