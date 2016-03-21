@@ -1,7 +1,7 @@
 {
   "name": "api-client",
   "main": "client.js",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "homepage": "https://github.com/crodas/ApiServer",
   "description": "API client for crodas/ApiServer",
   "keywords": [
