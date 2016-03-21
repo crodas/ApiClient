@@ -16,8 +16,8 @@ var Server = (function API_Client() {
 
         };
         xhr.onload = function() {
-            if (xhr.getResponseHeader('X-Set-Session-Id')) {
-                localStorage.sessionId = xhr.getResponseHeader('X-Set-Session-Id');
+            if (xhr.getResponseHeader('X-Session-Id')) {
+                localStorage.sessionId = xhr.getResponseHeader('X-Session-Id');
             } else if (xhr.getResponseHeader("X-Destroy-Session-Id")) {
                 localStorage.sessionId = "";
             }
